@@ -1,0 +1,9 @@
+BreakBeforeBraces: Attach
+Language: Cpp
+AllowShortBlocksOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLambdasOnASingleLine: Empty
+AlwaysBreakTemplateDeclarations: Yes
+SortIncludes: false
+AlignEscapedNewlines: Left
