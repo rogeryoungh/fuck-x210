@@ -1,12 +1,4 @@
-#define APLLCON0 *((volatile unsigned int *)0xE0100100)
-#define MPLLCON *((volatile unsigned int *)0xE0100108)
-#define EPLLCON0 *((volatile unsigned int *)0xE0100110)
-#define VPLLCON *((volatile unsigned int *)0xE0100120)
-#define CLK_SRC0 *((volatile unsigned int *)0xE0100200)
-#define CLK_DIV0 *((volatile unsigned int *)0xE0100300)
-#define CLK_DIV1 *((volatile unsigned int *)0xE0100304)
-#define CLK_DIV2 *((volatile unsigned int *)0xE0100308)
-#define CLK_DIV3 *((volatile unsigned int *)0xE010030C)
+#include "../utils/clock.h"
 
 void clock_init() {
   /* 1、设置PLL_LOCK寄存器（这里使用默认值） */

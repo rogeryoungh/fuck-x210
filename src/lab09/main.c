@@ -1,11 +1,5 @@
-#define GPJ2CON (*(volatile unsigned long *)0xE0200280)
-#define GPJ2DAT (*(volatile unsigned long *)0xE0200284)
-#define GPD0CON (*(volatile unsigned long *)0xE02000A0)
-#define GPD0DAT (*(volatile unsigned long *)0xE02000A4)
-
-extern void uart_send_byte(unsigned char byte);
-extern unsigned char uart_recv_byte();
-extern void uart_send_string(char *str);
+#include "../utils/gpio.h"
+#include "../utils/uart.h"
 
 void delay(volatile unsigned int t) {
   volatile unsigned int t2 = 0xFFFF;

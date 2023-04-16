@@ -7,3 +7,4 @@ AllowShortLambdasOnASingleLine: Empty
 AlwaysBreakTemplateDeclarations: Yes
 SortIncludes: false
 AlignEscapedNewlines: Left
+AlignConsecutiveMacros: true
