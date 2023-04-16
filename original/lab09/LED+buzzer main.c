@@ -5,7 +5,7 @@
 #define GPC1CON (*((volatile unsigned long *)0xE0200060))
 #define GPC1DAT (*((volatile unsigned long *)0xE0200064))
 #define GPC1PUD (*((volatile unsigned long *)0xE0200068))
-#define LEDS 1
+#define LEDS    1
 
 extern void uart_send_byte(unsigned char byte);
 extern unsigned char uart_recv_byte();
