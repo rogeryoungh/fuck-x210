@@ -9,8 +9,8 @@ void uart_init() {
   ** 配置GPA0_0为UART_0_RXD
   ** 配置GPA0_1为UART_0_TXD
   */
-  GPA0CON &= ~0xFF;
-  GPA0CON |= 0x22; // 0b 00100010
+  GPA0CON &= ~0xFF00FF;
+  GPA0CON |= 0x220022; // 0b 00100010
 
   /* 8-bits/One stop bit/No parity/Normal mode operation */
   /*每次8位，1个停止位，无奇偶验证，正常发送模式（非红外）*/

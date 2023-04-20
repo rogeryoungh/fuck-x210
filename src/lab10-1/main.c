@@ -96,10 +96,10 @@ int main() {
     char byte = uart_recv_byte();
     p1 = (byte == STR1[p1]) ? p1 + 1 : 0;
     p2 = (byte == STR2[p2]) ? p2 + 1 : 0;
-    if (p1 == sizeof(STR1)) {
+    if (p1 == sizeof(STR1) - 1) {
       act1(5);
       p1 = 0;
-    } else if (p2 == sizeof(STR2)) {
+    } else if (p2 == sizeof(STR2) - 1) {
       act2(10);
       p2 = 0;
     }
