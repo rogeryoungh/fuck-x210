@@ -1,22 +1,16 @@
 #include "../utils/defs.h"
 #include "../utils/delay.h"
+#include "../utils/led.h"
 
 extern void key_isr(void);
 
-void led_init(void) {
-  /* 配置GPC0_1~GPC0_4为输出：LED1~LED4 */
-  GPJ2CON &= ~(0xFF << 0);
-  GPJ2CON |= ((0x01 << 0) | (0x01 << 4) | (0x01 << 8) | (0x01 << 12));
-  GPJ2DAT |= (0xFF << 0);
-}
-
 void key_init(void) {
   /* 配置GPH0_3为外部中断：SW5 */
-  GPH0CON |= 0xF << 4 * 3;
+  GPH0CON |= 0xF000;
   /* 清空相应位*/
-  EXT_INT_0_CON &= ~(0xF << 4 * 3);
+  EXT_INT_0_CON &= ~0xF000;
   /* 配置EXT_INT[0]和EXT_INT[1]为下降沿触发 0b0 010 0 010 */
-  EXT_INT_0_CON |= (2 << 4 * 3);
+  EXT_INT_0_CON |= 0x2000;
   /* 取消屏蔽外部中断EXT_INT[3] */
   EXT_INT_0_MASK &= ~0x8;
 }

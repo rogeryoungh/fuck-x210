@@ -6,7 +6,6 @@ _start:
   bic r0, r0, #0x00000080     
   msr cpsr, r0  	       
   @ bl clock_init
-  bl uart_init
   bl main
 halt:
   b halt

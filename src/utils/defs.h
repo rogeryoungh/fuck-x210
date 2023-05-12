@@ -24,37 +24,36 @@ typedef unsigned char u8;
 #define EXT_INT_0_MASK DEF(u32, 0xE0200F00)
 #define EXT_INT_0_PEND DEF(u32, 0xE0200F40)
 
-#define VIC0IRQSTATUS *((volatile unsigned int *)0xF2000000)
-#define VIC0INTSELECT DEF(u32, 0xF200000C)
-#define VIC0INTENABLE DEF(u32, 0xF2000010)
-#define VIC0ADDRESS   DEF(u32, 0xF2000F00)
-#define VIC0VECTADDR2 DEF(u32, 0xF2000108)
-#define VIC0VECTADDR3 DEF(u32, 0xF200010C)
-#define VIC0VECTADDR4 *((volatile unsigned int *)0xF2000110)
-#define VIC0VECTADDR23 *((volatile unsigned int *)0xF200015C)
-#define LEDS          1
+#define VIC0IRQSTATUS  DEF(u32, 0xF2000000)
+#define VIC0INTSELECT  DEF(u32, 0xF200000C)
+#define VIC0INTENABLE  DEF(u32, 0xF2000010)
+#define VIC0ADDRESS    DEF(u32, 0xF2000F00)
+#define VIC0VECTADDR2  DEF(u32, 0xF2000108)
+#define VIC0VECTADDR3  DEF(u32, 0xF200010C)
+#define VIC0VECTADDR4  DEF(u32, 0xF2000110)
+#define VIC0VECTADDR23 DEF(u32, 0xF200015C)
+#define LEDS           1
 
 // pwn
 
-#define TCFG0  (*(volatile unsigned long *)0xE2500000)
-#define TCFG1  (*(volatile unsigned long *)0xE2500004)
-#define TCNTB2 (*(volatile unsigned long *)0xE2500024)
-#define TCMPB2 (*(volatile unsigned long *)0xE2500028)
-#define TCON   (*(volatile unsigned long *)0xE2500008)
-#define TCFG0   (*(volatile unsigned long *)0xE2500000)
-#define TCFG1   (*(volatile unsigned long *)0xE2500004)
-#define TCNTB2  (*(volatile unsigned long *)0xE2500024)
-#define TCMPB2  (*(volatile unsigned long *)0xE2500028)
-#define TCON    (*(volatile unsigned long *)0xE2500008)
-#define TINT_CSTAT     *((volatile unsigned int *)0xE2500044)
+#define TCFG0      DEF(u64, 0xE2500000)
+#define TCFG1      DEF(u64, 0xE2500004)
+#define TCNTB2     DEF(u64, 0xE2500024)
+#define TCMPB2     DEF(u64, 0xE2500028)
+#define TCON       DEF(u64, 0xE2500008)
+#define TCFG0      DEF(u64, 0xE2500000)
+#define TCFG1      DEF(u64, 0xE2500004)
+#define TCNTB2     DEF(u64, 0xE2500024)
+#define TCMPB2     DEF(u64, 0xE2500028)
+#define TCON       DEF(u64, 0xE2500008)
+#define TINT_CSTAT DEF(u32, 0xE2500044)
 
-
-#define TCFG0 (*(volatile unsigned long *)0xE2500000)
-#define TCFG1 (*(volatile unsigned long *)0xE2500004)
-#define TCNTB2 (*(volatile unsigned long *)0xE2500024)
-#define TCMPB2 (*(volatile unsigned long *)0xE2500028)
-#define TCON (*(volatile unsigned long *)0xE2500008)
-#define TINT_CSTAT *((volatile unsigned int *)0xE2500044)
+#define TCFG0      DEF(u64, 0xE2500000)
+#define TCFG1      DEF(u64, 0xE2500004)
+#define TCNTB2     DEF(u64, 0xE2500024)
+#define TCMPB2     DEF(u64, 0xE2500028)
+#define TCON       DEF(u64, 0xE2500008)
+#define TINT_CSTAT DEF(u32, 0xE2500044)
 
 // uart
 

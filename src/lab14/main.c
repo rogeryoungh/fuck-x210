@@ -1,6 +1,7 @@
 #include "../utils/defs.h"
 #include "../utils/buzzer.h"
 #include "../utils/delay.h"
+#include "../utils/led.h"
 
 extern void key_isr(void);
 
@@ -27,12 +28,6 @@ void pwm_init() { // 添加定时器 2 初始化代码，使得 PWM 周期为 10s，占空比为 50 %
   TCON |= (1 << 12);  // 启动定时器2
 }
 
-void led_init(void) {
-  GPJ2CON &= ~(0xFFFF << 0);
-  GPJ2CON |= ((0x1 << 0) | (0x1 << 4) | (0x1 << 8) | (0x1 << 12));
-  GPJ2DAT |= 0xF << 0;
-}
-
 void init_irq() {
   TINT_CSTAT |= (1 << 2);
 }
@@ -40,19 +35,16 @@ void clear_irq() {
   TINT_CSTAT |= (1 << 7);
 }
 void key_init(void) {
-  GPH0CON |= 0xF << 4 * 3;
   // 配置2，4，8为外部中断，分别为SW467
-  GPH0CON |= (0xF << 4 * 2) | (0xF << 4 * 4);
+  GPH0CON |= 0xFFF00;
   /* 清空相应位*/
-  EXT_INT_0_CON &= ~((0xF << 4 * 3) | (0xF << 4 * 2) | (0xF << 4 * 4));
+  EXT_INT_0_CON &= ~0xFFF00;
   /* 配置EXT_INT[2,3,4,8]为下降沿触发 0b0 010 0 010 */
-  EXT_INT_0_CON |= (2 << 4 * 3) | (2 << 4 * 2) | (2 << 4 * 4);
+  EXT_INT_0_CON |= 0x22200;
 
   /* 取消屏蔽外部中断EXT_INT[3] */
   EXT_INT_0_MASK &= ~0x1C;
 }
-
-#define VIC0VECTADDR23 *((volatile unsigned int *)0xF200015C)
 
 void int_init(void) {
   VIC0INTSELECT &= ~(0x1C | (1 << 23));
@@ -74,7 +66,6 @@ void key_handle() {
   clear_irq();
   if (key_code & 0x4) { // sw4
     sw4_1 = 0;
-
   } else if (key_code & 0x8) { // sw5
     sw5_1 = 0;
   } else if (key_code & 0x10) {
@@ -84,7 +75,7 @@ void key_handle() {
     if (flag == 0) {
       exec = 1;
     } else {
-      x2 ^= 1;
+      x2 = 1 - x2;
       exec = x2;
     }
 
@@ -101,47 +92,23 @@ void key_handle() {
         }
       }
       if (sw5_1 >= 0) {
-        GPJ2DAT ^= 1 << (sw5_1 % 4);
+        GPJ2DAT ^= 1 << (sw5_1 & 0x3);
         if (sw5_1 >= 16) {
           sw5_1 = -1;
         }
       }
     }
   }
-  //   if (key_code == 0x4) /* sw4 */
-  //   {
-  //     int num = 10;
-  //     while (num--) {
-
-  //       buzzer_on();
-  //       delay(0x50000);
-  //       buzzer_off();
-  //       delay(0x50000);
-  //     }
-  //   } else if (key_code == 0x10) /* SW6 */
-  //   {
-  //     int num = 10;
-  //     while (num--) {
-  //       GPJ2DAT ^= 1 << 0;
-  //       delay(0x50000);
-  //       GPJ2DAT ^= 1 << 1;
-  //       delay(0x50000);
-  //       GPJ2DAT ^= 1 << 2;
-  //       delay(0x50000);
-  //       GPJ2DAT ^= 1 << 3;
-  //       delay(0x50000);
-  //     }
-  //   }
 }
 
 int main() {
+  sw4_1 = -1, sw5_1 = -1;
+  flag = 0, x2 = 0;
   buzzer_init();
   led_init();
   key_init();
   int_init();
   init_irq();
-  sw4_1 = -1, sw5_1 = -1;
-  flag = 0, x2 = 0;
   while (1)
     ;
   return 0;

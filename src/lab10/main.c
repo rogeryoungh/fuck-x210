@@ -2,7 +2,7 @@
 #include "../utils/delay.h"
 #include "../utils/buzzer.h"
 #include "../utils/uart.h"
-
+#include "../utils/led.h"
 
 extern void key_isr(void);
 
@@ -48,23 +48,28 @@ void key_handle() {
   /* toggle LED2 */
 }
 
-int main() {
-  char byte;
-
-  GPJ2CON &= ~(0xFF << 0);
-  GPJ2CON |= ((0x01 << 0) | (0x01 << 4) | (0x01 << 8) |
-              (0x01 << 12)); //((0x01 << 0) | (0x01 << 4));
-  GPJ2DAT |= (0xFF << 0);
-  GPH0CON |= 0xFF << 8;
-  EXT_INT_0_CON &= ~(0xFF << 8);
-  EXT_INT_0_CON |= (2 << 8) | (2 << 12);
+void key_init() {
+  GPH0CON |= 0xFF00;
+  EXT_INT_0_CON &= ~0xFF00;
+  EXT_INT_0_CON |= 0x2200;
   EXT_INT_0_MASK &= ~0xC;
-  uart_send_string("\r\nUART Test in S5PV210\r\n");
+}
 
+void int_init() {
   VIC0INTSELECT &= ~0xC;
   VIC0INTENABLE |= 0xC;
   VIC0VECTADDR2 = (int)key_isr;
   VIC0VECTADDR3 = (int)key_isr;
+  VIC0ADDRESS = 0X0;
+}
+
+int main() {
+  uart_init();
+  led_init();
+  key_init();
+  int_init();
+  uart_send_string("\r\nUART Test in S5PV210\r\n");
+
   while (1)
     ;
 

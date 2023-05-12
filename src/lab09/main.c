@@ -1,16 +1,10 @@
 #include "../utils/defs.h"
 #include "../utils/uart.h"
 #include "../utils/delay.h"
-
-void led_init() {
-  GPJ2CON &= ~(0xFF << 0);
-  GPJ2CON |= ((0x01 << 0) | (0x01 << 4) | (0x01 << 8) |
-              (0x01 << 12)); //((0x01 << 0) | (0x01 << 4));
-  GPJ2DAT |= (0xFF << 0);
-}
+#include "../utils/led.h"
 
 int main() {
-  char byte;
+  uart_init();
   led_init();
   uart_send_string("\r\nUART Test in S5PV210\r\n");
 
@@ -18,7 +12,7 @@ int main() {
     uart_send_string("\r\n1.LED1 Toggle\r\n");
     uart_send_string("\r\n2.LED2 Toggle\r\n");
     uart_send_string("\r\nPlease select 1 or 2 to Toggle the LED\r\n");
-    byte = uart_recv_byte();
+    char byte = uart_recv_byte();
     uart_send_byte(byte);
 
     if (byte == '1') {
