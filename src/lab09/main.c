@@ -1,12 +1,6 @@
-#include "../utils/gpio.h"
+#include "../utils/defs.h"
 #include "../utils/uart.h"
-
-void delay(volatile unsigned int t) {
-  volatile unsigned int t2 = 0xFFFF;
-  while (t--)
-    for (; t2; t2--)
-      ;
-}
+#include "../utils/delay.h"
 
 void led_init() {
   GPJ2CON &= ~(0xFF << 0);

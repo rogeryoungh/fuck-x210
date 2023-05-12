@@ -1,5 +1,5 @@
 
-uart.bin: start.o clock.o uart.o main.o 
+uart.bin: start.o main.o 
 	arm-linux-ld -Ttext 0xD0020010 -o uart.elf $^
 	arm-linux-objcopy -O binary uart.elf $@
 	arm-linux-objdump -D uart.elf > uart.dis

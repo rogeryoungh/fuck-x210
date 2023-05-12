@@ -1,28 +1,9 @@
-#include "../utils/gpio.h"
+#include "../utils/defs.h"
+#include "../utils/delay.h"
 #include "../utils/uart.h"
+#include "../utils/buzzer.h"
 
 extern void key_isr(void);
-extern void uart_send_byte(unsigned char byte);
-extern unsigned char uart_recv_byte();
-extern void uart_send_string(char *str);
-void delay(volatile unsigned int t) {
-  volatile unsigned int t2 = 0xFFFF;
-  while (t--)
-    for (; t2; t2--)
-      ;
-}
-
-void buzzer_init(void) {
-  GPD0CON |= 1 << 8;
-}
-
-void buzzer_on(void) {
-  GPD0DAT |= 1 << 2;
-}
-
-void buzzer_off(void) {
-  GPD0DAT &= ~(1 << 2);
-}
 
 void act1(int num) {
   while (num--) {
