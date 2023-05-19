@@ -5,7 +5,7 @@
 
 extern void key_isr(void);
 
-void pwm_init() { // ���Ӷ�ʱ�� 2 ��ʼ�����룬ʹ�� PWM ����Ϊ 10s��ռ�ձ�Ϊ 50 %
+void pwm_init() { // 添加定时器 2 初始化代码，使得 PWM 周期为 10s，占空比为 50 %
   //
   // TCNTB2 = 631620;
   // TCMPB2 = 315810;
@@ -13,19 +13,19 @@ void pwm_init() { // ���Ӷ�ʱ�� 2 ��ʼ�����룬ʹ�� PWM ����Ϊ 10s��ռ�ձ�Ϊ 50 %
   // TCFG1 = (0x04 << 8);
   // TCON |= (1 << 13);
   // TCON = (1 << 15);
-  GPD0CON &= ~(0xf << 8);
-  GPD0CON |= (2 << 8); // ���ö�ʱ��2���
+  // GPD0CON &= ~(0xf << 8);
+  // GPD0CON |= (2 << 8); // 设置定时器2输出
   TCFG0 &= ~(0xff << 8);
-  TCFG0 |= (65 << 8); // Ԥ��ƵֵΪ65
+  TCFG0 |= (65 << 8); // 预分频值为65
   TCFG1 &= ~(0xf << 8);
-  TCFG1 |= (4 << 8); // ������Ϊ��ʱ��2����Ԥ��Ƶֵ
-  TCON |= (1 << 15); // �Զ�����
+  TCFG1 |= (4 << 8); // 设置是为定时器2设置预分频值
+  TCON |= (1 << 15); // 自动加载
   TCNTB2 = 62500;
   TCMPB2 = 31250;
 
-  TCON |= (1 << 13);  // �ֶ�����TCNTB2��TCMPB2
-  TCON &= ~(1 << 13); // ���ֶ�����λ
-  TCON |= (1 << 12);  // ������ʱ��2
+  TCON |= (1 << 13);  // 手动更新TCNTB2和TCMPB2
+  TCON &= ~(1 << 13); // 清手动更新位
+  TCON |= (1 << 12);  // 启动定时器2
 }
 
 void init_irq() {
@@ -35,14 +35,14 @@ void clear_irq() {
   TINT_CSTAT |= (1 << 7);
 }
 void key_init(void) {
-  // ����2��4��8Ϊ�ⲿ�жϣ��ֱ�ΪSW467
+  // 配置2，4，8为外部中断，分别为SW467
   GPH0CON |= 0xFFF00;
-  /* �����Ӧλ*/
+  /* 清空相应位*/
   EXT_INT_0_CON &= ~0xFFF00;
-  /* ����EXT_INT[2,3,4,8]Ϊ�½��ش��� 0b0 010 0 010 */
+  /* 配置EXT_INT[2,3,4,8]为下降沿触发 0b0 010 0 010 */
   EXT_INT_0_CON |= 0x22200;
 
-  /* ȡ�������ⲿ�ж�EXT_INT[3] */
+  /* 取消屏蔽外部中断EXT_INT[3] */
   EXT_INT_0_MASK &= ~0x1C;
 }
 
