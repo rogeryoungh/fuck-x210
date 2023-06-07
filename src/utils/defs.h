@@ -6,6 +6,8 @@ typedef unsigned long u64;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
+#include "./bin.h"
+
 #define DEF(X, Y) (*(volatile X *)(Y))
 
 // gpio
