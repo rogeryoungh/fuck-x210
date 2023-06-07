@@ -1,19 +1,9 @@
 #include "../utils/defs.h"
 #include "../utils/delay.h"
 #include "../utils/led.h"
+#include "../utils/key.h"
 
 extern void key_isr(void);
-
-void key_init(void) {
-  GPH0CON |= 0xFF00;
-  /* 配置GPH0_0和GPH0_1为外部中断：key1和key2 */
-  EXT_INT_0_CON &= ~0xFF00;
-  /* 清空低八位*/
-  EXT_INT_0_CON |= 0x220;
-  /* 配置EXT_INT[0]和EXT_INT[1]为下降沿触发 0b010 0 010 */
-  EXT_INT_0_MASK &= ~0xC;
-  /* 取消屏蔽外部中断EXT_INT[0]和EXT_INT[1] */
-}
 
 void int_init(void) {
   VIC0INTSELECT &= ~0xC;

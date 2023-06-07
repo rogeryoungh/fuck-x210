@@ -1,19 +1,9 @@
 #include "../utils/defs.h"
 #include "../utils/delay.h"
 #include "../utils/led.h"
+#include "../utils/key.h"
 
 extern void key_isr(void);
-
-void key_init(void) {
-  /* 配置GPH0_3为外部中断：SW5 */
-  GPH0CON |= 0xF000;
-  /* 清空相应位*/
-  EXT_INT_0_CON &= ~0xF000;
-  /* 配置EXT_INT[0]和EXT_INT[1]为下降沿触发 0b0 010 0 010 */
-  EXT_INT_0_CON |= 0x2000;
-  /* 取消屏蔽外部中断EXT_INT[3] */
-  EXT_INT_0_MASK &= ~0x8;
-}
 
 void int_init(void) {
   /* 选择外部中断EXT_INT[3]为IRQ类型的中断 */

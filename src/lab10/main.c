@@ -3,6 +3,7 @@
 #include "../utils/buzzer.h"
 #include "../utils/uart.h"
 #include "../utils/led.h"
+#include "../utils/key.h"
 
 extern void key_isr(void);
 
@@ -46,13 +47,6 @@ void key_handle() {
     }
   }
   /* toggle LED2 */
-}
-
-void key_init() {
-  GPH0CON |= 0xFF00;
-  EXT_INT_0_CON &= ~0xFF00;
-  EXT_INT_0_CON |= 0x2200;
-  EXT_INT_0_MASK &= ~0xC;
 }
 
 void int_init() {
