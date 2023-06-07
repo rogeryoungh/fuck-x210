@@ -15,7 +15,7 @@ void key_handle() {
   if (key_code == 0x04) /* SW4 */
   {
     int num = 10;
-    uart_send_string("\r\nSW4 PRESSED\r\n");
+    uart0_send_string("\r\nSW4 PRESSED\r\n");
     while (num--) {
       GPJ2DAT ^= 1 << 0;
       delay(100);
@@ -33,7 +33,7 @@ void key_handle() {
   else if (key_code == 0x08) /* SW5 */
   {
     int num = 10;
-    uart_send_string("\r\nSW5 PRESSED\r\n");
+    uart0_send_string("\r\nSW5 PRESSED\r\n");
     while (num--) {
       GPJ2DAT ^= 1 << 3;
       delay(100);
@@ -64,11 +64,11 @@ void int_init() {
 }
 
 int main() {
-  uart_init();
+  uart0_init();
   led_init();
   key_init();
   int_init();
-  uart_send_string("\r\nUART Test in S5PV210\r\n");
+  uart0_send_string("\r\nUART Test in S5PV210\r\n");
 
   while (1)
     ;

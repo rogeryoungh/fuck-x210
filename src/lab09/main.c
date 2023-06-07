@@ -4,16 +4,16 @@
 #include "../utils/led.h"
 
 int main() {
-  uart_init();
+  uart0_init();
   led_init();
-  uart_send_string("\r\nUART Test in S5PV210\r\n");
+  uart0_send_string("\r\nUART Test in S5PV210\r\n");
 
   while (1) {
-    uart_send_string("\r\n1.LED1 Toggle\r\n");
-    uart_send_string("\r\n2.LED2 Toggle\r\n");
-    uart_send_string("\r\nPlease select 1 or 2 to Toggle the LED\r\n");
-    char byte = uart_recv_byte();
-    uart_send_byte(byte);
+    uart0_send_string("\r\n1.LED1 Toggle\r\n");
+    uart0_send_string("\r\n2.LED2 Toggle\r\n");
+    uart0_send_string("\r\nPlease select 1 or 2 to Toggle the LED\r\n");
+    char byte = uart0_recv_byte();
+    uart0_send_byte(byte);
 
     if (byte == '1') {
       GPJ2DAT ^= 1 << 3;

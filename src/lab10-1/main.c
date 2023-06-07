@@ -39,10 +39,10 @@ void key_handle() {
   EXT_INT_0_PEND |= 0xC;
 
   if (key_code == 0x04) { /* SW4 */
-    uart_send_string("\r\nSW4 PRESSED\r\n");
+    uart1_send_string("\r\nSW4 PRESSED\r\n");
     act1(10);
   } else if (key_code == 0x08) { /* SW5 */
-    uart_send_string("\r\nSW5 PRESSED\r\n");
+    uart1_send_string("\r\nSW5 PRESSED\r\n");
     act2(10);
   }
 
@@ -69,17 +69,17 @@ void int_init() {
 }
 
 int main() {
-  uart_init();
+  uart1_init();
   led_init();
   key_init();
   int_init();
-  uart_send_string("\r\nUART Test in S5PV210\r\n");
+  uart1_send_string("\r\nUART Test in S5PV210\r\n");
 
 #define STR1 "SW4+5T"
 #define STR2 "SW4+10T"
   int p1 = 0, p2 = 0;
   while (1) {
-    char byte = uart_recv_byte();
+    char byte = uart1_recv_byte();
     p1 = (byte == STR1[p1]) ? p1 + 1 : 0;
     p2 = (byte == STR2[p2]) ? p2 + 1 : 0;
     if (p1 == sizeof(STR1) - 1) {

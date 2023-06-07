@@ -1,53 +1,87 @@
 #include "./defs.h"
-/*
-** UART0初始化
-*/
-void uart_init() {
-  /*
-  ** 配置GPA0_0为UART_0_RXD
-  ** 配置GPA0_1为UART_0_TXD
-  */
-  GPA0CON &= ~0xFF00FF;
-  GPA0CON |= 0x220022; // 0b 00100010
 
-  /* 8-bits/One stop bit/No parity/Normal mode operation */
-  /*每次8位，1个停止位，无奇偶验证，正常发送模式（非红外）*/
-  ULCON0 = 0x3 | (0 << 2) | (0 << 3) | (0 << 6); // 0b 0 0xx 0 11
+void uart0_init() {
+  // 启用 UART0 的 RXD 和 TXD
+  GPA0CON &= ~0xFF;
+  GPA0CON |= 0x22;
 
-  /* Interrupt request or polling mode/Normal transmit/Normal operation/PCLK/*/
-  /*发送和接受引脚采用中断和轮询查询模式，正常发送，常规操作，时钟选择为PCLK*/
-  UCON0 = 1 | (1 << 2) | (0 << 10);
+  // 8 位数据，1 位停止，无校验，正常模式
+  ULCON0 = (B0011 << 0) | (0 << 2) | (0 << 3) | (0 << 6);
 
-  /* 禁止FIFO */
+  // 中断或轮询方式、时钟源 PCLK
+  // 课本上还打开了错误中断使能
+  UCON0 = (B0001 << 0) | (B0001 << 2) | (0 << 10);
+
+  // 不使用 FIFO
   UFCON0 = 0;
 
-  /*
-  ** 波特率计算：115200bps
-  ** PCLK = 66MHz
-  ** DIV_VAL = (66000000/(115200 x 16))-1 = 35.8 - 1 = 34.8
-  ** UBRDIV0 = 34 (DIV_VAL的整数部分)
-  ** (num of 1's in UDIVSLOTn)/16 = 0.8 (DIV_VAL的小数部分)
-  ** (num of 1's in UDIVSLOTn) = 12
-  ** UDIVSLOT0 = 0xDDDD (在数据手册上880页查表)
-  */
-  UBRDIV0 = 34; // 波特率分度值
+  // 波特率计算 115200bps，PCLK = 66MHz
+  // 芯片手册 P880 查表
+  UBRDIV0 = 34;
   UDIVSLOT0 = 0xDDDD;
 }
 
-void uart_send_byte(unsigned char byte) {
-  while (!(UTRSTAT0 & (1 << 2)))
-    ;           /* 等待发送缓冲区为空 */
-  UTXH0 = byte; /* 发送一字节数据 */
+void uart1_init() {
+  // 启用 UART0 的 RXD 和 TXD
+  GPA0CON &= ~0xFF0000;
+  GPA0CON |= 0x220000;
+
+  // 8 位数据，1 位停止，无校验，正常模式
+  ULCON1 = (B0011 << 0) | (0 << 2) | (0 << 3) | (0 << 6);
+
+  // 中断或轮询方式、时钟源 PCLK
+  // 课本上还打开了错误中断使能
+  UCON1 = (B0001 << 0) | (B0001 << 2) | (0 << 10);
+
+  // 不使用 FIFO
+  UFCON1 = 0;
+
+  // 波特率计算 115200bps，PCLK = 66MHz
+  // 芯片手册 P880 查表
+  UBRDIV1 = 34;
+  UDIVSLOT1 = 0xDDDD;
 }
 
-unsigned char uart_recv_byte() {
-  while (!(UTRSTAT0 & 1))
-    ;           /* 等待接收缓冲区有数据可读 */
-  return URXH0; /* 接收一字节数据 */
+void uart0_send_byte(unsigned char byte) {
+  // 等待发送缓冲区为空
+  while (!(UTRSTAT0 & B0100))
+    ;
+  // 发送一字节数据
+  UTXH0 = byte;
 }
 
-void uart_send_string(char *str) {
+void uart1_send_byte(unsigned char byte) {
+  // 等待发送缓冲区为空
+  while (!(UTRSTAT1 & B0100))
+    ;
+  // 发送一字节数据
+  UTXH1 = byte;
+}
+
+unsigned char uart0_recv_byte() {
+  // 等待接收缓冲区有数据可读
+  while (!(UTRSTAT0 & B0001))
+    ;
+  // 接收一字节数据
+  return URXH0;
+}
+
+unsigned char uart1_recv_byte() {
+  // 等待接收缓冲区有数据可读
+  while (!(UTRSTAT1 & B0001))
+    ;
+  // 接收一字节数据
+  return URXH1;
+}
+
+void uart0_send_string(char *str) {
   char *p = str;
   while (*p)
-    uart_send_byte(*p++);
+    uart0_send_byte(*p++);
+}
+
+void uart1_send_string(char *str) {
+  char *p = str;
+  while (*p)
+    uart1_send_byte(*p++);
 }

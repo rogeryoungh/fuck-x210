@@ -62,16 +62,23 @@ typedef unsigned char u8;
 #define UART0_BASE(x) 0xE29000##x
 #define UART1_BASE(x) 0xE29004##x
 
-#define UART(x) UART0_BASE(x)
+#define ULCON0    DEF(u32, 0xE2900000)
+#define UCON0     DEF(u32, 0xE2900004)
+#define UFCON0    DEF(u32, 0xE2900008)
+#define UTRSTAT0  DEF(u32, 0xE2900010)
+#define UTXH0     DEF(u32, 0xE2900020)
+#define URXH0     DEF(u32, 0xE2900024)
+#define UBRDIV0   DEF(u32, 0xE2900028)
+#define UDIVSLOT0 DEF(u32, 0xE290002C)
 
-#define ULCON0    DEF(u32, UART(00))
-#define UCON0     DEF(u32, UART(04))
-#define UFCON0    DEF(u32, UART(08))
-#define UTRSTAT0  DEF(u32, UART(10))
-#define UTXH0     DEF(u32, UART(20))
-#define URXH0     DEF(u32, UART(24))
-#define UBRDIV0   DEF(u32, UART(28))
-#define UDIVSLOT0 DEF(u32, UART(2C))
+#define ULCON1    DEF(u32, 0xE2900400)
+#define UCON1     DEF(u32, 0xE2900404)
+#define UFCON1    DEF(u32, 0xE2900408)
+#define UTRSTAT1  DEF(u32, 0xE2900410)
+#define UTXH1     DEF(u32, 0xE2900420)
+#define URXH1     DEF(u32, 0xE2900424)
+#define UBRDIV1   DEF(u32, 0xE2900428)
+#define UDIVSLOT1 DEF(u32, 0xE290042C)
 
 // clock
 
