@@ -38,27 +38,22 @@ typedef unsigned char u8;
 #define VIC0VECTADDR2  DEF(u32, 0xF2000108)
 #define VIC0VECTADDR3  DEF(u32, 0xF200010C)
 #define VIC0VECTADDR4  DEF(u32, 0xF2000110)
+#define VIC0VECTADDR21 DEF(u32, 0xF2000154)
+#define VIC0VECTADDR22 DEF(u32, 0xF2000158)
 #define VIC0VECTADDR23 DEF(u32, 0xF200015C)
+#define VIC0VECTADDR24 DEF(u32, 0xF2000160)
 #define LEDS           1
 
 // pwn
 
 #define TCFG0      DEF(u64, 0xE2500000)
 #define TCFG1      DEF(u64, 0xE2500004)
+#define TCNTB1     DEF(u64, 0xE2500018)
+#define TCMPB1     DEF(u64, 0xE250001C)
 #define TCNTB2     DEF(u64, 0xE2500024)
 #define TCMPB2     DEF(u64, 0xE2500028)
-#define TCON       DEF(u64, 0xE2500008)
-#define TCFG0      DEF(u64, 0xE2500000)
-#define TCFG1      DEF(u64, 0xE2500004)
-#define TCNTB2     DEF(u64, 0xE2500024)
-#define TCMPB2     DEF(u64, 0xE2500028)
-#define TCON       DEF(u64, 0xE2500008)
-#define TINT_CSTAT DEF(u32, 0xE2500044)
-
-#define TCFG0      DEF(u64, 0xE2500000)
-#define TCFG1      DEF(u64, 0xE2500004)
-#define TCNTB2     DEF(u64, 0xE2500024)
-#define TCMPB2     DEF(u64, 0xE2500028)
+#define TCNTB3     DEF(u64, 0xE2500030)
+#define TCMPB3     DEF(u64, 0xE2500034)
 #define TCON       DEF(u64, 0xE2500008)
 #define TINT_CSTAT DEF(u32, 0xE2500044)
 
